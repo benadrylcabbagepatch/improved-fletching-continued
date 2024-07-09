@@ -1,5 +1,6 @@
 package dontneg.improvedfletching;
 
+import dontneg.improvedfletching.codec.FletchingData;
 import dontneg.improvedfletching.screen.FletchingScreen;
 import dontneg.improvedfletching.screen.FletchingScreenHandler;
 import net.fabricmc.api.ModInitializer;
@@ -24,7 +25,7 @@ public class ImprovedFletching implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 	public static final Identifier FLETCHING_ID = Identifier.of(MODID, "fletching_table");
 	public static final BlockEntityType<FletchingTableBlockEntity> FLETCHING_TABLE_ENTITY = BlockEntityType.Builder.create(FletchingTableBlockEntity::new, Blocks.FLETCHING_TABLE).build();
-	public static final ScreenHandlerType<FletchingScreenHandler> FLETCHING_TABLE_SCREEN_HANDLER = new ScreenHandlerType<>(FletchingScreenHandler::new, FeatureSet.empty());
+	public static final ScreenHandlerType<FletchingScreenHandler> FLETCHING_TABLE_SCREEN_HANDLER = new ExtendedScreenHandlerType<>(FletchingScreenHandler::new, FletchingData.PACKET_CODEC);
 
 	@Override
 	public void onInitialize() {

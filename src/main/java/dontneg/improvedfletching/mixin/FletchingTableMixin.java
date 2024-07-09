@@ -1,10 +1,14 @@
 package dontneg.improvedfletching.mixin;
 
+import com.mojang.datafixers.types.templates.Check;
 import dontneg.improvedfletching.FletchingTableBlockEntity;
 import dontneg.improvedfletching.ImprovedFletching;
+import dontneg.improvedfletching.codec.FletchingData;
 import dontneg.improvedfletching.screen.FletchingScreenHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -28,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FletchingTableBlock.class)
-public class FletchingTableMixin extends CraftingTableBlock implements BlockEntityProvider, ScreenHandlerFactory {
+public class FletchingTableMixin extends CraftingTableBlock implements BlockEntityProvider {
 	public FletchingTableMixin(Settings settings) {
 		super(settings);
 	}
@@ -42,7 +46,7 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
-			NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+			NamedScreenHandlerFactory screenHandlerFactory = (FletchingTableBlockEntity) world.getBlockEntity(pos);
 			if (screenHandlerFactory != null) {
 				player.openHandledScreen(screenHandlerFactory);
 			}
@@ -61,23 +65,19 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 		return this.getDefaultState().with(FILLED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
 	}
 
-	@Override
-	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
-				new FletchingScreenHandler(syncId, inventory), TITLE);
-	}
+//	@Override
+//	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+//		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
+//				new FletchingScreenHandler(syncId, inventory, new FletchingData(pos)), TITLE);
+//	}
 
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new FletchingTableBlockEntity(ImprovedFletching.FLETCHING_TABLE_ENTITY,pos,state);
+		return new FletchingTableBlockEntity(pos,state);
 	}
 
-	@Nullable
-	@Override
-	public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-		return new FletchingScreenHandler(syncId, playerInventory);
-	}
+
 
 	@Override
 	protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {

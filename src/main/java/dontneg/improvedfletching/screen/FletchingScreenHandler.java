@@ -1,7 +1,10 @@
 package dontneg.improvedfletching.screen;
 
+import dontneg.improvedfletching.FletchingTableBlockEntity;
 import dontneg.improvedfletching.ImprovedFletching;
+import dontneg.improvedfletching.codec.FletchingData;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
@@ -10,6 +13,10 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.screen.CartographyTableScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -22,20 +29,20 @@ public class FletchingScreenHandler extends ScreenHandler {
     private final ScreenHandlerContext context;
     public final Inventory inventory;
     private final CraftingResultInventory resultInventory;
+    public final FletchingTableBlockEntity blockEntity;
 
-    public FletchingScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, ScreenHandlerContext.EMPTY);
+    public FletchingScreenHandler(int syncId, PlayerInventory inventory, FletchingData data) {
+        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(data.pos()),
+                ScreenHandlerContext.create(inventory.player.getWorld(),inventory.player.getBlockPos()));
     }
 
-    public FletchingScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+    public FletchingScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, ScreenHandlerContext context) {
         super(ImprovedFletching.FLETCHING_TABLE_SCREEN_HANDLER, syncId);
         addModifiers();
-        this.inventory = new SimpleInventory(5) {
-            public void markDirty() {
-                FletchingScreenHandler.this.onContentChanged(this);
-                super.markDirty();
-            }
-        };
+//        checkSize((Inventory) blockEntity.getInventory(), 5);
+        this.inventory = (Inventory) blockEntity;
+        inventory.onOpen(playerInventory.player);
+        this.blockEntity = (FletchingTableBlockEntity) blockEntity;
         this.resultInventory = new CraftingResultInventory() {
             public void markDirty() {
                 FletchingScreenHandler.this.onContentChanged(this);
@@ -51,7 +58,7 @@ public class FletchingScreenHandler extends ScreenHandler {
         addInventory(playerInventory);
         addHotbar(playerInventory);
     }
-    
+
     public boolean canUse(PlayerEntity player) {
         return canUse(this.context, player, Blocks.FLETCHING_TABLE);
     }
@@ -84,12 +91,13 @@ public class FletchingScreenHandler extends ScreenHandler {
 
     @Override
     public void onContentChanged(Inventory inventory) {
-        this.sendContentUpdates();
+        inventory.markDirty();
+//        this.sendContentUpdates();
     }
 
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
+//        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
     }
 
     private void addModifiers() {
@@ -114,4 +122,6 @@ public class FletchingScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
+
 }

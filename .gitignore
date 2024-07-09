@@ -68,3 +68,10 @@ build/tmp/compileJava/previous-compilation-data.bin
 .gradle/8.8/executionHistory/executionHistory.lock
 .gradle/8.8/executionHistory/executionHistory.bin
 /run
+/.gradle
+*.gz
+*.bin
+*.lock
+*.dat_old
+*.dat
+*.mca

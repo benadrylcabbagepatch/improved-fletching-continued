@@ -10,13 +10,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
 
 public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
-//    static Boolean isThirdSlotFilled;
-//    static String path = isThirdSlotFilled ? "textures/gui/fletching_table_filled_slot_three.png" : "textures/gui/fletching_table_unfilled_slot_three.png";
     private static final Identifier TEXTURE = Identifier.of(ImprovedFletching.MODID, "textures/gui/fletching_table_unfilled_slot_three.png");
 
     public FletchingScreen(FletchingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-//        isThirdSlotFilled = handler.isThirdSlotFilled();
     }
 
     @Override
