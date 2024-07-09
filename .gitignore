@@ -75,3 +75,4 @@ build/tmp/compileJava/previous-compilation-data.bin
 *.dat_old
 *.dat
 *.mca
+/run

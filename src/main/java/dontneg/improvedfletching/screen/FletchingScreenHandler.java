@@ -9,26 +9,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.screen.CartographyTableScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
-
 import java.util.ArrayList;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class FletchingScreenHandler extends ScreenHandler {
     private final ArrayList<Item> modifiers = new ArrayList<>();
+    private final Boolean returnItems = false;
     private final ScreenHandlerContext context;
-    public final Inventory inventory;
     private final CraftingResultInventory resultInventory;
+    public final Inventory inventory;
     public final FletchingTableBlockEntity blockEntity;
 
     public FletchingScreenHandler(int syncId, PlayerInventory inventory, FletchingData data) {
@@ -39,7 +34,7 @@ public class FletchingScreenHandler extends ScreenHandler {
     public FletchingScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, ScreenHandlerContext context) {
         super(ImprovedFletching.FLETCHING_TABLE_SCREEN_HANDLER, syncId);
         addModifiers();
-//        checkSize((Inventory) blockEntity.getInventory(), 5);
+        checkSize((Inventory) blockEntity, 5);
         this.inventory = (Inventory) blockEntity;
         inventory.onOpen(playerInventory.player);
         this.blockEntity = (FletchingTableBlockEntity) blockEntity;
@@ -91,13 +86,13 @@ public class FletchingScreenHandler extends ScreenHandler {
 
     @Override
     public void onContentChanged(Inventory inventory) {
-        inventory.markDirty();
-//        this.sendContentUpdates();
+        this.sendContentUpdates();
     }
 
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-//        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
+        if(!returnItems) return;
+        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
     }
 
     private void addModifiers() {

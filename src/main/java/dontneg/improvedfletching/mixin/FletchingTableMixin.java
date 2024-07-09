@@ -3,21 +3,15 @@ package dontneg.improvedfletching.mixin;
 import com.mojang.datafixers.types.templates.Check;
 import dontneg.improvedfletching.FletchingTableBlockEntity;
 import dontneg.improvedfletching.ImprovedFletching;
-import dontneg.improvedfletching.codec.FletchingData;
-import dontneg.improvedfletching.screen.FletchingScreenHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.*;
-import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
@@ -29,7 +23,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FletchingTableBlock.class)
 public class FletchingTableMixin extends CraftingTableBlock implements BlockEntityProvider {
@@ -65,11 +58,11 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 		return this.getDefaultState().with(FILLED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
 	}
 
-//	@Override
-//	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-//		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
-//				new FletchingScreenHandler(syncId, inventory, new FletchingData(pos)), TITLE);
-//	}
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return ImprovedFletching.FLETCHING_TABLE_ENTITY.equals(type) ? (worldOne, pos, stateOne, blockEntity) -> FletchingTableBlockEntity.tick(worldOne,pos,stateOne) : null;
+	}
 
 	@Nullable
 	@Override
@@ -89,5 +82,9 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 			}
 			super.onStateReplaced(state, world, pos, newState, moved);
 		}
+	}
+
+	public BooleanProperty getFilled(){
+		return FILLED;
 	}
 }

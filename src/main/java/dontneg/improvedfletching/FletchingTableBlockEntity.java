@@ -15,7 +15,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -28,7 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 
 public class FletchingTableBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5);
+    //static
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     public FletchingTableBlockEntity(BlockPos pos, BlockState state){
         this(ImprovedFletching.FLETCHING_TABLE_ENTITY,pos,state);
@@ -62,13 +62,13 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
-        Inventories.readNbt(nbt, this.inventory, registryLookup);
+        Inventories.readNbt(nbt, inventory, registryLookup);
     }
 
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
-        Inventories.writeNbt(nbt, this.inventory, registryLookup);
+        Inventories.writeNbt(nbt, inventory, registryLookup);
     }
 
     @Override
@@ -78,8 +78,18 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
         super.markDirty();
     }
 
-//    public void tick(World world, BlockPos pos, BlockState state) {
-//        ImprovedFletching.LOGGER.info("dfw");
+    public static void tick(World world, BlockPos pos, BlockState state) {
+        if(world.isClient()) return;
+//        ImprovedFletching.LOGGER.info(String.valueOf(arrowReady()));
+    }
+
+//    private static boolean arrowReady(){
+//        for(int i = 0;i<3;i++){
+//            if(inventory.get(i).isEmpty()){
+//                return false;
+//            }
+//        }
+//        return true;
 //    }
 
     @Nullable
@@ -97,4 +107,6 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
     public Object getScreenOpeningData(ServerPlayerEntity player) {
         return new FletchingData(getPos());
     }
+
+
 }
