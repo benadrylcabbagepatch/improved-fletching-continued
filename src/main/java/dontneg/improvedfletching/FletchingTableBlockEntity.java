@@ -54,10 +54,6 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
         return inventory;
     }
 
-    public DefaultedList<ItemStack> getInventory() {
-        return inventory;
-    }
-
     @Override
     public int size() {
         return 5;
