@@ -33,7 +33,7 @@ public class FletchingTableBlockEntity extends BlockEntity implements NamedScree
 
     @Override
     public Text getDisplayName() {
-        return Text.translatable(this.getCachedState().getBlock().getTranslationKey());
+        return Text.literal("Fletching Table");
     }
 
     @Nullable
