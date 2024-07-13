@@ -6,7 +6,6 @@ import net.minecraft.util.math.BlockPos;
 
 public record FletchingData(BlockPos pos) {
     public static final PacketCodec<RegistryByteBuf, FletchingData> PACKET_CODEC = PacketCodec.tuple(
-            BlockPos.PACKET_CODEC, FletchingData::pos,
-            FletchingData::new
+            BlockPos.PACKET_CODEC, FletchingData::pos, FletchingData::new
     );
 }

@@ -39,35 +39,6 @@ replay_*.log
 *.hprof
 *.jfr
 /run
-/run
-run/logs/debug-1.log.gz
-run/logs/debug-2.log.gz
-run/logs/debug-4.log.gz
-run/logs/debug-5.log.gz
-run/saves/New World/data/raids.dat
-run/saves/New World/DIM-1/data/raids.dat
-run/saves/New World/DIM1/data/raids_end.dat
-run/saves/New World/level.dat
-run/usercache.json
-run/saves/New World/session.lock
-run/saves/New World/level.dat_old
-run/command_history.txt
-run/config/fabric/indigo-renderer.properties
-run/logs/2024-07-09-1.log.gz
-run/logs/2024-07-09-2.log.gz
-run/logs/2024-07-09-3.log.gz
-run/logs/2024-07-09-4.log.gz
-run/logs/2024-07-09-5.log.gz
-run/logs/2024-07-09-6.log.gz
-run/logs/2024-07-09-7.log.gz
-build/tmp/compileJava/previous-compilation-data.bin
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gradle/8.8/fileHashes/resourceHashesCache.bin
-.gradle/8.8/fileHashes/fileHashes.lock
-.gradle/8.8/fileHashes/fileHashes.bin
-.gradle/8.8/executionHistory/executionHistory.lock
-.gradle/8.8/executionHistory/executionHistory.bin
-/run
 /.gradle
 *.gz
 *.bin
@@ -75,4 +46,3 @@ build/tmp/compileJava/previous-compilation-data.bin
 *.dat_old
 *.dat
 *.mca
-/run

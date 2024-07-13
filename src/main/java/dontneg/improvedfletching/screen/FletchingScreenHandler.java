@@ -7,22 +7,17 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
-import java.util.ArrayList;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class FletchingScreenHandler extends ScreenHandler {
-    private final ArrayList<Item> modifiers = new ArrayList<>();
     private final Boolean returnItems = false;
     private final ScreenHandlerContext context;
-    private final CraftingResultInventory resultInventory;
     public final Inventory inventory;
     public final FletchingTableBlockEntity blockEntity;
 
@@ -33,36 +28,71 @@ public class FletchingScreenHandler extends ScreenHandler {
 
     public FletchingScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, ScreenHandlerContext context) {
         super(ImprovedFletching.FLETCHING_TABLE_SCREEN_HANDLER, syncId);
-        addModifiers();
         checkSize((Inventory) blockEntity, 5);
         this.inventory = (Inventory) blockEntity;
         inventory.onOpen(playerInventory.player);
         this.blockEntity = (FletchingTableBlockEntity) blockEntity;
-        this.resultInventory = new CraftingResultInventory() {
-            public void markDirty() {
-                FletchingScreenHandler.this.onContentChanged(this);
-                super.markDirty();
-            }
-        };
         this.context = context;
-        this.addSlot(new FletchingSlot(this.inventory, 0, 11, 34, Items.FEATHER, null));
-        this.addSlot(new FletchingSlot(this.inventory, 1, 54, 34, Items.STICK, null));
-        this.addSlot(new FletchingSlot(this.inventory, 2, 97, 22, Items.FLINT, null));
-        this.addSlot(new FletchingSlot(this.inventory, 3, 97, 46, null, modifiers));
-        this.addSlot(new FletchingSlot(this.resultInventory, 4, 148, 34, null, null));
+        this.addSlot(new FletchingSlot(this.inventory, 0, 11, 34, Items.FEATHER, null){
+            @Override
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                FletchingScreenHandler.this.onTakeItem(stack);
+                this.markDirty();
+            }
+        });
+        this.addSlot(new FletchingSlot(this.inventory, 1, 54, 34, Items.STICK, null){
+            @Override
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                FletchingScreenHandler.this.onTakeItem(stack);
+                this.markDirty();
+            }
+        });
+        this.addSlot(new FletchingSlot(this.inventory, 2, 97, 22, Items.FLINT, null){
+            @Override
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                FletchingScreenHandler.this.onTakeItem(stack);
+                this.markDirty();
+            }
+        });
+        this.addSlot(new FletchingSlot(this.inventory, 3, 97, 46, null, ImprovedFletching.getModifiers()){
+            @Override
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                FletchingScreenHandler.this.onTakeItem(stack);
+                this.markDirty();
+            }
+        });
+        this.addSlot(new FletchingSlot(this.inventory, 4, 148, 34, null, null){
+            @Override
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                FletchingScreenHandler.this.onTakeOutput(stack);
+                this.markDirty();
+            }
+        });
         addInventory(playerInventory);
         addHotbar(playerInventory);
+    }
+
+    public void onTakeItem(ItemStack stack){
+        decrementSlots(stack, 4);
+    }
+
+    public void onTakeOutput(ItemStack stack){
+        decrementSlots(stack, 0,1,2,3,4);
+    }
+
+    public void decrementSlots(ItemStack stack, int... slotIndexes){
+        for(int index: slotIndexes){
+            if(this.inventory.getStack(index).isEmpty()) continue;
+            this.inventory.getStack(index).decrement(stack.getCount());
+        }
     }
 
     public boolean canUse(PlayerEntity player) {
         return canUse(this.context, player, Blocks.FLETCHING_TABLE);
     }
 
-    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
-        return slot.inventory != this.resultInventory && super.canInsertIntoSlot(stack, slot);
-    }
-
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
+        if(player.getWorld().isClient()) return ItemStack.EMPTY;
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot.hasStack()) {
@@ -81,27 +111,24 @@ public class FletchingScreenHandler extends ScreenHandler {
                 slot.markDirty();
             }
         }
+        if(invSlot==4){
+            decrementSlots(newStack, 0,1,2,3,4);
+        }else{
+            decrementSlots(newStack, 4);
+        }
         return newStack;
     }
 
     @Override
     public void onContentChanged(Inventory inventory) {
         this.sendContentUpdates();
+        super.onContentChanged(inventory);
     }
 
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
         if(!returnItems) return;
         this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
-    }
-
-    private void addModifiers() {
-        modifiers.add(Items.CARROT);
-        modifiers.add(Items.QUARTZ);
-        modifiers.add(Items.ECHO_SHARD);
-        modifiers.add(Items.BLAZE_POWDER);
-        modifiers.add(Items.HONEY_BOTTLE);
-        modifiers.add(Items.REDSTONE);
     }
 
     private void addInventory(PlayerInventory playerInventory){
@@ -117,6 +144,4 @@ public class FletchingScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
-
-
 }

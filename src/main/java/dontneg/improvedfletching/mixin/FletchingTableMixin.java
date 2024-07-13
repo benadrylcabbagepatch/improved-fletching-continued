@@ -1,6 +1,5 @@
 package dontneg.improvedfletching.mixin;
 
-import com.mojang.datafixers.types.templates.Check;
 import dontneg.improvedfletching.FletchingTableBlockEntity;
 import dontneg.improvedfletching.ImprovedFletching;
 import net.minecraft.block.*;
@@ -11,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.*;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
@@ -24,16 +22,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("unused")
 @Mixin(FletchingTableBlock.class)
 public class FletchingTableMixin extends CraftingTableBlock implements BlockEntityProvider {
 	public FletchingTableMixin(Settings settings) {
 		super(settings);
 	}
 	private static final Text TITLE = Text.of("Fletching Table");
-	private static final BooleanProperty FILLED = BooleanProperty.of("filled");
+
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	public void injectConstructorFletching(AbstractBlock.Settings settings, CallbackInfo ci) {
-		this.setDefaultState(this.getDefaultState().with(FILLED, false));
+		this.setDefaultState(this.getDefaultState().with(FletchingTableBlockEntity.FILLED, false));
 	}
 
 	@Override
@@ -49,19 +48,19 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(FILLED);
+		builder.add(FletchingTableBlockEntity.FILLED);
 	}
 
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FILLED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
+		return this.getDefaultState().with(FletchingTableBlockEntity.FILLED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
 	}
 
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return ImprovedFletching.FLETCHING_TABLE_ENTITY.equals(type) ? (worldOne, pos, stateOne, blockEntity) -> FletchingTableBlockEntity.tick(worldOne,pos,stateOne) : null;
+		return ImprovedFletching.FLETCHING_TABLE_ENTITY.equals(type) ? (worldOne, pos, stateOne, blockEntity) -> FletchingTableBlockEntity.tick(worldOne,pos,stateOne,(FletchingTableBlockEntity) blockEntity) : null;
 	}
 
 	@Nullable
@@ -82,9 +81,5 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 			}
 			super.onStateReplaced(state, world, pos, newState, moved);
 		}
-	}
-
-	public BooleanProperty getFilled(){
-		return FILLED;
 	}
 }

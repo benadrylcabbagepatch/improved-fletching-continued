@@ -9,8 +9,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(ImprovedFletching.MODID, "textures/gui/fletching_table_unfilled_slot_three.png");
+    private final Identifier TEXTUREFILLED = Identifier.of(ImprovedFletching.MODID, "textures/gui/fletching_table_filled_slot_three.png");
 
     public FletchingScreen(FletchingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -19,11 +20,10 @@ public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1F);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(TEXTUREFILLED, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override
@@ -38,4 +38,6 @@ public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
+
+
 }
