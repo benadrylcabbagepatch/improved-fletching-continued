@@ -73,7 +73,7 @@ public class FletchingScreenHandler extends ScreenHandler {
     }
 
     public void onTakeItem(ItemStack stack){
-        decrementSlots(stack, 4);
+//        decrementSlots(stack, 4);
     }
 
     public void onTakeOutput(ItemStack stack){
@@ -111,11 +111,7 @@ public class FletchingScreenHandler extends ScreenHandler {
                 slot.markDirty();
             }
         }
-        if(invSlot==4){
-            decrementSlots(newStack, 0,1,2,3,4);
-        }else{
-            decrementSlots(newStack, 4);
-        }
+        if(invSlot==4) decrementSlots(newStack, 0,1,2,3);
         return newStack;
     }
 

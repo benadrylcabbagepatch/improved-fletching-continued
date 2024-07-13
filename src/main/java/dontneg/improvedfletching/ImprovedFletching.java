@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -29,6 +30,7 @@ public class ImprovedFletching implements ModInitializer {
 	public static final BlockEntityType<FletchingTableBlockEntity> FLETCHING_TABLE_ENTITY = BlockEntityType.Builder.create(FletchingTableBlockEntity::new, Blocks.FLETCHING_TABLE).build();
 	public static final ScreenHandlerType<FletchingScreenHandler> FLETCHING_TABLE_SCREEN_HANDLER = new ExtendedScreenHandlerType<>(FletchingScreenHandler::new, FletchingData.PACKET_CODEC);
 	private static final List<Item> modifiers = Arrays.asList(
+			ItemStack.EMPTY.getItem(),
 			Items.BLAZE_POWDER,
 			Items.CARROT,
 			Items.HONEY_BOTTLE,
