@@ -1,48 +1,34 @@
-# gradle
+# Compiled nonsense that does not belong in *source* control
+**/build
+/build
+/bin
+**/bin
+/.gradle
+**/.gradle
+/minecraft
+*/minecraft
+/out
+*/run
+*/out
+/run
+/classes
 
-.gradle/
-build/
-out/
-classes/
-
-# eclipse
-
-*.launch
-
-# idea
-
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# vscode
-
-.settings/
-.vscode/
-bin/
+# IDE nonsense that could go in source control but really shouldn't
 .classpath
 .project
+.metadata
+.settings
+*.launch
+*.iml
+.idea
+*.ipr
+*.iws
+.vscode
 
-# macos
+# Sekrit files 
+private.properties
 
-*.DS_Store
-
-# fabric
-
-run/
-
-# java
-
-hs_err_*.log
-replay_*.log
-*.hprof
-*.jfr
-/run
-/.gradle
-*.gz
-*.bin
-*.lock
-*.dat_old
-*.dat
-*.mca
+# Files from bad operating systems :^)
+Thumbs.db
+.DS_Store
+/.architectury-transformer/debug.log
