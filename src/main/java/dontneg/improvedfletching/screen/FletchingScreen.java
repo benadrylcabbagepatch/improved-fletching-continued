@@ -9,9 +9,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
 
-@SuppressWarnings("SpellCheckingInspection")
 public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
-    private final Identifier TEXTUREFILLED = Identifier.of(ImprovedFletching.MODID, "textures/gui/fletching_table_filled_slot_three.png");
+    private final Identifier TEXTURE = Identifier.of(ImprovedFletching.MODID, "textures/gui/fletching_table_filled_slot_three.png");
 
     public FletchingScreen(FletchingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -23,7 +22,7 @@ public class FletchingScreen extends HandledScreen<FletchingScreenHandler> {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1F);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        context.drawTexture(TEXTUREFILLED, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override

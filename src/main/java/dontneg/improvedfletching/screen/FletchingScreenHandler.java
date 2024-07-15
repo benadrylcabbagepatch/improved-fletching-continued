@@ -14,9 +14,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
-@SuppressWarnings("FieldCanBeLocal")
 public class FletchingScreenHandler extends ScreenHandler {
-    private final Boolean returnItems = false;
     private final ScreenHandlerContext context;
     public final Inventory inventory;
     public final FletchingTableBlockEntity blockEntity;
@@ -33,34 +31,10 @@ public class FletchingScreenHandler extends ScreenHandler {
         inventory.onOpen(playerInventory.player);
         this.blockEntity = (FletchingTableBlockEntity) blockEntity;
         this.context = context;
-        this.addSlot(new FletchingSlot(this.inventory, 0, 11, 34, Items.FEATHER, null){
-            @Override
-            public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                FletchingScreenHandler.this.onTakeItem(stack);
-                this.markDirty();
-            }
-        });
-        this.addSlot(new FletchingSlot(this.inventory, 1, 54, 34, Items.STICK, null){
-            @Override
-            public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                FletchingScreenHandler.this.onTakeItem(stack);
-                this.markDirty();
-            }
-        });
-        this.addSlot(new FletchingSlot(this.inventory, 2, 97, 22, Items.FLINT, null){
-            @Override
-            public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                FletchingScreenHandler.this.onTakeItem(stack);
-                this.markDirty();
-            }
-        });
-        this.addSlot(new FletchingSlot(this.inventory, 3, 97, 46, null, ImprovedFletching.getModifiers()){
-            @Override
-            public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                FletchingScreenHandler.this.onTakeItem(stack);
-                this.markDirty();
-            }
-        });
+        this.addSlot(new FletchingSlot(this.inventory, 0, 11, 34, Items.FEATHER, null));
+        this.addSlot(new FletchingSlot(this.inventory, 1, 54, 34, Items.STICK, null));
+        this.addSlot(new FletchingSlot(this.inventory, 2, 97, 22, Items.FLINT, null));
+        this.addSlot(new FletchingSlot(this.inventory, 3, 97, 46, null, ImprovedFletching.getModifiers()));
         this.addSlot(new FletchingSlot(this.inventory, 4, 148, 34, null, null){
             @Override
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
@@ -72,12 +46,8 @@ public class FletchingScreenHandler extends ScreenHandler {
         addHotbar(playerInventory);
     }
 
-    public void onTakeItem(ItemStack stack){
-//        decrementSlots(stack, 4);
-    }
-
     public void onTakeOutput(ItemStack stack){
-        decrementSlots(stack, 0,1,2,3,4);
+        decrementSlots(stack, 0,1,2,3);
     }
 
     public void decrementSlots(ItemStack stack, int... slotIndexes){
@@ -123,6 +93,7 @@ public class FletchingScreenHandler extends ScreenHandler {
 
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
+        boolean returnItems = false;
         if(!returnItems) return;
         this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
     }

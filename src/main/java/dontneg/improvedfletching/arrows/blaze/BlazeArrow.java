@@ -1,6 +1,5 @@
 package dontneg.improvedfletching.arrows.blaze;
 
-import dontneg.improvedfletching.arrows.honey.HoneyArrowEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;

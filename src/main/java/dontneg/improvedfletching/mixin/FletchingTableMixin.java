@@ -69,8 +69,6 @@ public class FletchingTableMixin extends CraftingTableBlock implements BlockEnti
 		return new FletchingTableBlockEntity(pos,state);
 	}
 
-
-
 	@Override
 	protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.getBlock() != newState.getBlock()) {

@@ -4,5 +4,10 @@
   "item.improvedfletching.arrow_honey": "Honey-Dipped Arrow",
   "item.improvedfletching.arrow_quartz": "Quartz Arrow",
 
+  "entity.improvedfletching.arrow_blaze": "Blaze Arrow",
+  "entity.improvedfletching.arrow_carrot": "Carrot Arrow",
+  "entity.improvedfletching.arrow_honey": "Honey-Dipped Arrow",
+  "entity.improvedfletching.arrow_quartz": "Quartz Arrow",
+
   "itemGroup.improvedfletching": "Improved Fletching"
 }

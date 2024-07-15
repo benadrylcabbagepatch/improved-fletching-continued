@@ -5,13 +5,11 @@ import dontneg.improvedfletching.interfaces.ImplementedInventory;
 import dontneg.improvedfletching.item.ArrowItems;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -31,7 +29,6 @@ import dontneg.improvedfletching.screen.FletchingScreenHandler;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -99,15 +96,22 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
         super.markDirty();
     }
 
-    @SuppressWarnings("unused")
     public static void tick(World world, BlockPos pos, BlockState state, FletchingTableBlockEntity blockEntity) {
         if(world.isClient()) return;
         DefaultedList<ItemStack> inventory = blockEntity.inventory;
-        if(!blockEntity.oldInventory.equals(inventory)){
+        boolean changed = false;
+        for(int o = 0;o<blockEntity.size();o++){
+            if (!inventory.get(o).getItem().equals(blockEntity.oldInventory.get(o).getItem()) ||
+                    !(inventory.get(o).getCount() == blockEntity.oldInventory.get(o).getCount())) {
+                changed = true;
+                break;
+            }
+        }
+        if(changed){
             if(blockEntity.inventory.get(3).isEmpty()){
-                Objects.requireNonNull(blockEntity.getWorld()).setBlockState(pos,blockEntity.getCachedState().with(FILLED,false));
+                Objects.requireNonNull(blockEntity.getWorld()).setBlockState(pos,state.with(FILLED,false));
             }else{
-                Objects.requireNonNull(blockEntity.getWorld()).setBlockState(pos,blockEntity.getCachedState().with(FILLED,true));
+                Objects.requireNonNull(blockEntity.getWorld()).setBlockState(pos,state.with(FILLED,true));
             }
             for(int i = 0;i<6;i++){
                 boolean hasModifier = i > 1;
@@ -118,8 +122,8 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
             }
         }
 
-        for(int i = 0;i<5;i++){
-            blockEntity.oldInventory.set(i,inventory.get(i));
+        for(int i = 0;i<blockEntity.size();i++){
+            blockEntity.oldInventory.set(i,new ItemStack(inventory.get(i).getItem(),inventory.get(i).getCount()));
         }
     }
 

@@ -6,7 +6,6 @@ import dontneg.improvedfletching.arrows.carrot.CarrotArrow;
 import dontneg.improvedfletching.arrows.honey.HoneyArrow;
 import dontneg.improvedfletching.arrows.quartz.QuartzArrow;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;

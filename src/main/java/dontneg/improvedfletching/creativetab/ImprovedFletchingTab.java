@@ -21,7 +21,8 @@ public class ImprovedFletchingTab {
                         entries.add(ArrowItems.ARROW_CARROT);
                         entries.add(ArrowItems.ARROW_HONEY);
                         entries.add(ArrowItems.ARROW_QUARTZ);
-                    }).build());
+                    }).build()
+    );
 
     public static void registerCreativeTabs() {}
 }

@@ -3,7 +3,7 @@
 	"id": "improvedfletching",
 	"version": "${version}",
 	"name": "Improved Fletching",
-	"description": "Gives purpose to the fletching table!",
+	"description": "Adds custom arrows and an actual purpose to the fletching table!",
 	"authors": [
 		"DontNeg",
 		"u/PowerPork"
@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"dontneg.improvedfletching.ImprovedFletching"
+		],
+		"client": [
+			"dontneg.improvedfletching.ClientImprovedFletching"
 		]
 	},
 	"mixins": [

@@ -1,8 +1,6 @@
 package dontneg.improvedfletching.arrows.quartz;
 
-import dontneg.improvedfletching.arrows.honey.HoneyArrowEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ArrowItem;
@@ -29,4 +27,5 @@ public class QuartzArrow extends ArrowItem {
         arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         return arrowEntity;
     }
+
 }
