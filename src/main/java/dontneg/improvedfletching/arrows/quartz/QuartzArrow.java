@@ -24,7 +24,7 @@ public class QuartzArrow extends ArrowItem {
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
         QuartzArrowEntity arrowEntity = new QuartzArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), (ItemStack)null);
-        arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+        arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
         return arrowEntity;
     }
 

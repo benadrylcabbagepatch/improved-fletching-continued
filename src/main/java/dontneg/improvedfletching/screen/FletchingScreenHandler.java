@@ -53,7 +53,7 @@ public class FletchingScreenHandler extends ScreenHandler {
     public void decrementSlots(ItemStack stack, int... slotIndexes){
         for(int index: slotIndexes){
             if(this.inventory.getStack(index).isEmpty()) continue;
-            this.inventory.getStack(index).decrement(stack.getCount());
+            this.inventory.getStack(index).decrement(stack.getCount()/4);
         }
     }
 
@@ -63,6 +63,7 @@ public class FletchingScreenHandler extends ScreenHandler {
 
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         if(player.getWorld().isClient()) return ItemStack.EMPTY;
+        if(isQuickIntoOutput(invSlot)) return ItemStack.EMPTY;
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot.hasStack()) {
@@ -83,6 +84,12 @@ public class FletchingScreenHandler extends ScreenHandler {
         }
         if(invSlot==4) decrementSlots(newStack, 0,1,2,3);
         return newStack;
+    }
+
+    public boolean isQuickIntoOutput(int invSlot){
+        for(int index: new int[]{0,1,2,3,4})
+            if(invSlot==index) return false;
+        return this.slots.get(invSlot).getStack().getItem() == Items.ARROW;
     }
 
     @Override

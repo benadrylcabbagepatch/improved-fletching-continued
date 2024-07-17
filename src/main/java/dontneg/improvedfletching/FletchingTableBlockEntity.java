@@ -138,7 +138,7 @@ public class FletchingTableBlockEntity extends BlockEntity implements ExtendedSc
         }
         if(blockEntity.inventory.get(4).getCount() == min && blockEntity.inventory.get(4).getItem() == output.getItem()) return;
         blockEntity.markDirty();
-        blockEntity.setStack(4,new ItemStack(output.getItem(), min));
+        blockEntity.setStack(4,new ItemStack(output.getItem(), min*4));
     }
 
     public static boolean inventoryReady(DefaultedList<ItemStack> inventory){
