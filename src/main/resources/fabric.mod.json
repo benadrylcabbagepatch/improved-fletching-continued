@@ -3,16 +3,17 @@
 	"id": "improvedfletching",
 	"version": "${version}",
 	"name": "Improved Fletching",
-	"description": "Adds custom arrows and an actual purpose to the fletching table!",
+	"description": "Adds custom arrows and an additional purpose to the fletching table!",
 	"authors": [
 		"DontNeg",
 		"u/PowerPork"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://discord.gg/JRjcKNj8SV",
+		"issues": "https://github.com/LMokahel/improved-fletching/issues",
+		"sources": "https://github.com/LMokahel/improved-fletching"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/improvedfletching/icon/icon.png",
 	"environment": "*",
 	"entrypoints": {
