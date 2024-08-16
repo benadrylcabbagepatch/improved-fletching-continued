@@ -23,7 +23,7 @@ public class CarrotArrow extends ArrowItem {
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        CarrotArrowEntity arrowEntity = new CarrotArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), (ItemStack)null);
+        CarrotArrowEntity arrowEntity = new CarrotArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), null);
         arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
         return arrowEntity;
     }

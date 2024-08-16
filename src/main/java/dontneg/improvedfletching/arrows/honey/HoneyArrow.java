@@ -23,7 +23,7 @@ public class HoneyArrow extends ArrowItem {
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        HoneyArrowEntity arrowEntity = new HoneyArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), (ItemStack)null);
+        HoneyArrowEntity arrowEntity = new HoneyArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), null);
         arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
         return arrowEntity;
     }

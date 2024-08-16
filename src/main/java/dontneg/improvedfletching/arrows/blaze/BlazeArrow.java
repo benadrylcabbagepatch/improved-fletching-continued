@@ -23,7 +23,7 @@ public class BlazeArrow extends ArrowItem {
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        BlazeArrowEntity arrowEntity = new BlazeArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), (ItemStack)null);
+        BlazeArrowEntity arrowEntity = new BlazeArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), null);
         arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
         return arrowEntity;
     }
