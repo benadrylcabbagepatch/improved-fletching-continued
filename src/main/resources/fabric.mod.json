@@ -1,31 +1,32 @@
 {
 	"schemaVersion": 1,
-	"id": "improvedfletching",
+	"id": "improvedfletchingcontinued",
 	"version": "${version}",
-	"name": "Improved Fletching",
+	"name": "Improved Fletching Continued",
 	"description": "Adds custom arrows and an additional purpose to the fletching table!",
 	"authors": [
 		"DontNeg",
-		"u/PowerPork"
+		"u/PowerPork",
+		"BenadrylCabbagepatch"
 	],
 	"contact": {
-		"homepage": "https://discord.gg/JRjcKNj8SV",
-		"issues": "https://github.com/LMokahel/improved-fletching/issues",
-		"sources": "https://github.com/LMokahel/improved-fletching"
+		"homepage": "-",
+		"issues": "https://github.com/benadrylcabbagepatch/improved-fletching-continued/issues",
+		"sources": "https://github.com/benadrylcabbagepatch/improved-fletching-continued"
 	},
 	"license": "MIT",
-	"icon": "assets/improvedfletching/icon/icon.png",
+	"icon": "assets/improvedfletchingcontinued/icon/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"dontneg.improvedfletching.ImprovedFletching"
+			"benadrylcabbagepatch.improvedfletchingcontinued.ImprovedFletchingContinued"
 		],
 		"client": [
-			"dontneg.improvedfletching.ClientImprovedFletching"
+			"benadrylcabbagepatch.improvedfletchingcontinued.ClientImprovedFletching"
 		]
 	},
 	"mixins": [
-		"improvedfletching.mixins.json"
+		"improvedfletchingcontinued.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.10",

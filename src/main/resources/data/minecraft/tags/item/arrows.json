@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "improvedfletching:arrow_blaze",
-    "improvedfletching:arrow_carrot",
-    "improvedfletching:arrow_honey",
-    "improvedfletching:arrow_quartz"
+    "improvedfletchingcontinued:arrow_blaze",
+    "improvedfletchingcontinued:arrow_carrot",
+    "improvedfletchingcontinued:arrow_honey",
+    "improvedfletchingcontinued:arrow_quartz"
   ]
 }
