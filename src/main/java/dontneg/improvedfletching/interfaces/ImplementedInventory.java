@@ -13,6 +13,7 @@ public interface ImplementedInventory extends Inventory {
         return () -> items;
     }
 
+    @SuppressWarnings("unused")
     static ImplementedInventory ofSize(int size) {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }

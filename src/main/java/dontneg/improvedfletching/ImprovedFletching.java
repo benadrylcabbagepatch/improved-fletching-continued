@@ -6,6 +6,7 @@ import dontneg.improvedfletching.entity.*;
 import dontneg.improvedfletching.item.ArrowItems;
 import dontneg.improvedfletching.screen.FletchingScreenHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
@@ -26,7 +27,7 @@ public class ImprovedFletching implements ModInitializer {
 	@SuppressWarnings("unused")
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 	public static final Identifier FLETCHING_ID = Identifier.of(MODID, "fletching_table");
-	public static final BlockEntityType<FletchingTableBlockEntity> FLETCHING_TABLE_ENTITY = BlockEntityType.Builder.create(FletchingTableBlockEntity::new, Blocks.FLETCHING_TABLE).build();
+	public static final BlockEntityType<FletchingTableBlockEntity> FLETCHING_TABLE_ENTITY = FabricBlockEntityTypeBuilder.create(FletchingTableBlockEntity::new, Blocks.FLETCHING_TABLE).build();
 	public static final ScreenHandlerType<FletchingScreenHandler> FLETCHING_TABLE_SCREEN_HANDLER = new ExtendedScreenHandlerType<>(FletchingScreenHandler::new, FletchingData.PACKET_CODEC);
 	private static final List<Item> modifiers = Arrays.asList(
 			ItemStack.EMPTY.getItem(),
@@ -35,6 +36,10 @@ public class ImprovedFletching implements ModInitializer {
 			Items.HONEY_BOTTLE,
 			Items.QUARTZ
 	);
+
+	public static Identifier GetIdentifier(String name){
+		return Identifier.of(MODID, name);
+	}
 
 	@Override
 	public void onInitialize() {
